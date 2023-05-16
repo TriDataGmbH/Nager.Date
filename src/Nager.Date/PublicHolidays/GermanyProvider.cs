@@ -51,7 +51,7 @@ namespace Nager.Date.PublicHolidays
         public IEnumerable<PublicHoliday> GetHolidays(int year)
         {
             var countryCode = CountryCode.DE;
-
+            
             var items = new List<PublicHoliday>();
             items.Add(new PublicHoliday(year, 1, 1, "Neujahr", "New Year's Day", countryCode, 1967));
             items.Add(new PublicHoliday(year, 1, 6, "Heilige Drei Könige", "Epiphany", countryCode, 1967, new string[] { "DE-BW", "DE-BY", "DE-ST" }));
@@ -64,7 +64,6 @@ namespace Nager.Date.PublicHolidays
             items.Add(this._catholicProvider.WhitMonday("Pfingstmontag", year, countryCode));
             items.Add(this._catholicProvider.CorpusChristi("Fronleichnam", year, countryCode).SetCounties("DE-BW", "DE-BY", "DE-HE", "DE-NW", "DE-RP", "DE-SL"));
             items.Add(new PublicHoliday(year, 8, 15, "Mariä Himmelfahrt", "Assumption Day", countryCode, null, new string[] { "DE-SL" }));
-            items.Add(new PublicHoliday(year, 9, 20, "Weltkindertag", "World Children's Day", countryCode, 2019, new string[] { "DE-TH" }));
             items.Add(new PublicHoliday(year, 10, 3, "Tag der Deutschen Einheit", "German Unity Day", countryCode));
             items.Add(new PublicHoliday(year, 11, 1, "Allerheiligen", "All Saints' Day", countryCode, null, new string[] { "DE-BW", "DE-BY", "DE-NW", "DE-RP", "DE-SL" }));
             items.Add(new PublicHoliday(year, 12, 25, "Erster Weihnachtstag", "Christmas Day", countryCode));
@@ -74,8 +73,19 @@ namespace Nager.Date.PublicHolidays
             items.AddIfNotNull(this.PrayerDay(year, CountryCode.DE));
             items.AddIfNotNull(this.LiberationDay(year, CountryCode.DE));
             items.AddIfNotNull(this.ReformationDay(year, CountryCode.DE));
+            items.AddIfNotNull(this.WorldChildrensDay(year, CountryCode.DE));
 
             return items.OrderBy(o => o.Date);
+        }
+
+        private PublicHoliday WorldChildrensDay(int year, CountryCode countryCode)
+        {
+            if (year >= 2019)
+            {
+                return new PublicHoliday(year, 9, 20, "Weltkindertag", "World Children's Day", countryCode, 2019, new string[] { "DE-TH" });
+            }
+
+            return null;
         }
 
         private PublicHoliday InternationalWomensDay(int year, CountryCode countryCode)
